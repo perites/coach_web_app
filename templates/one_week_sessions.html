@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sessions</title>
+    <style>
+        body {
+            background-color: #292b2c; /* Dark gray background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px; /* Adding padding to the body */
+        }
+
+        table {
+            width: calc(100% - 40px); /* Adjusting the width of the table to accommodate padding */
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px; /* Adding border radius for smooth edges */
+            overflow: hidden; /* Ensuring that border-radius works properly */
+        }
+
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            color: #fff;
+            background-color: #004ea7; /* Darker gray background for table header */
+        }
+
+        td:hover {
+            background-color: #94bbec; /* Darker shade on hover */
+        }
+
+    </style>
+</head>
+
+<body>
+
+<table>
+    <thead>
+    <tr>
+        <th>Дата</th>
+        <th>Час</th>
+        <th>Ім'я коуча</th>
+        <th>Тип коучингу</th>
+        <th>Ім'я клієнта</th>
+        <th>Нік кліента</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for session in sessions %}
+        <tr style="{{ status_colors[session.status] }}">
+            <td>{{ session.date }}</td>
+            <td>{{ session.starting_time }}</td>
+            <td>{{ session.coach.full_name }}</td>
+            <td>{{ session.type or "" }}</td>
+            <td>{{ session.client.full_name }}</td>
+            <td>{{ session.client.username }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
