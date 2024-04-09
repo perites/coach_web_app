@@ -87,6 +87,7 @@
     <thead>
     <tr>
         <th>№</th>
+        <th>Session ID</th>
         <th>Дата</th>
         <th>Час</th>
         <th>Ім'я коуча</th>
@@ -100,12 +101,14 @@
     {% for  index, session in enumerate(sessions) %}
         <tr style="{{ status_colors[session.status] }}">
             <td>{{ index+1 }}</td>
+            <td>{{ session.id }}</td>
             <td>{{ session.date }}</td>
             <td>{{ session.starting_time }}</td>
             <td>{{ session.coach.full_name }}</td>
             <td>{{ session.type or "" }}</td>
             <td>{{ session.client.full_name }}</td>
             <td>{{ session.client.username }}</td>
+
         </tr>
     {% endfor %}
     </tbody>
