@@ -122,7 +122,7 @@
 
 <div class="button-container">
 
-    <a href="/sessions?week={{ week_number-1 }}">
+    <a href="/groups?week={{ week_number-1 }}">
         <button> < Подивитись за минулий тиждень</button>
     </a>
 
@@ -154,15 +154,16 @@
 
     <div class="color-wrapper">
         <div class="color-square" style="{{ group_status_colors[7] }}"></div>
-        <span class="color-text"> Менше {{min_participants}} учасників </span>
+        <span class="color-text"> Недостатня кількість для проведення </span>
+
     </div>
 
     <div class="color-wrapper">
         <div class="color-square" style="{{ group_status_colors[8] }}"></div>
-        <span class="color-text"> Більше {{min_participants}} учасників </span>
+        <span class="color-text"> Недостатня кількість для проведення </span>
     </div>
 
-    <a href="/sessions?week={{ week_number+1 }}">
+    <a href="/groups?week={{ week_number+1 }}">
         <button>Подивитись за наступний тиждень > </button>
     </a>
 
