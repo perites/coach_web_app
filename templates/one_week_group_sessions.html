@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sessions</title>
+    <style>
+        body {
+            background-color: #163140; /* Dark gray background */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px; /* Adding padding to the body */
+        }
+        h1 {
+            color: white;
+        }
+        table {
+            width: calc(100% - 40px); /* Adjusting the width of the table to accommodate padding */
+            border-collapse: collapse;
+            margin-top: 20px;
+            border-radius: 10px; /* Adding border radius for smooth edges */
+            overflow: hidden; /* Ensuring that border-radius works properly */
+        }
+
+        th, td {
+            border: 1px solid #555;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            color: #fff;
+            background-color: rgba(132, 99, 240, 0.92); /* Darker gray background for table header */
+        }
+
+        td:hover {
+            background-color: #94bbec; /* Darker shade on hover */
+        }
+
+       button {
+            width: 250px;
+            height: 41px;/* Add padding to buttons */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Add border radius */
+            background-color: rgba(132, 99, 240, 0.92); /* Button background color */
+            color: white; /* Button text color */
+            cursor: pointer; /* Cursor style */
+        }
+
+        button:hover {
+            background-color: #94bbec; /* Darker shade on hover */
+        }
+
+        .button-container {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+
+
+    .color-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .color-square {
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .color-text {
+        margin-left: 5px;
+        color: white;
+    }
+
+    </style>
+</head>
+
+<body>
+<h1>Сесії за {{ first_last_dates[0]}} - {{ first_last_dates[1] }}</h1>
+<table>
+    <thead>
+    <tr>
+        <th>№</th>
+        <th>Session ID</th>
+        <th>Тема сесії</th>
+        <th>Дата</th>
+        <th>Час</th>
+        <th>Ім'я коуча</th>
+        <th>Кліенти</th>
+
+
+    </tr>
+    </thead>
+    <tbody>
+    {% for  index, session in enumerate(sessions) %}
+        <tr style="{{ group_status_colors[session.status] }}">
+            <td>{{ index+1 }}</td>
+            <td>{{ session.id }}</td>
+            <td>{{ session.theme}}</td>
+            <td>{{ session.date }}</td>
+            <td>{{ session.starting_time }}</td>
+            <td>{{ session.coach.full_name }}</td>
+            <td>
+            {% for client in clients %}
+
+                {{ client.full_name }} (@{{client.username }})
+                <br>
+
+            {% endfor %}
+        </td>
+
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="button-container">
+
+    <a href="/sessions?week={{ week_number-1 }}">
+        <button> < Подивитись за минулий тиждень</button>
+    </a>
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[1] }}"></div>
+        <span class="color-text">  Вільна </span>
+    </div>
+
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[2] }}"></div>
+        <span class="color-text"> Всі місця заповнені</span>
+    </div>
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[3] }}"></div>
+        <span class="color-text">Проведена</span>
+    </div>
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[5]}}"></div>
+        <span class="color-text"> Перенесена </span>
+    </div>
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[4] }}"></div>
+        <span class="color-text"> Відмінена / Просрочена </span>
+    </div>
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[7] }}"></div>
+        <span class="color-text"> Менше {{min_participants}} учасників </span>
+    </div>
+
+    <div class="color-wrapper">
+        <div class="color-square" style="{{ group_status_colors[8] }}"></div>
+        <span class="color-text"> Більше {{min_participants}} учасників </span>
+    </div>
+
+    <a href="/sessions?week={{ week_number+1 }}">
+        <button>Подивитись за наступний тиждень > </button>
+    </a>
+
+</div>
+
+</body>
+</html>
