@@ -89,6 +89,7 @@
         <th>№</th>
         <th>Session ID</th>
         <th>Тема сесії</th>
+        <th>Тип</th>
         <th>Дата</th>
         <th>Час</th>
         <th>Ім'я коуча</th>
@@ -98,16 +99,17 @@
     </tr>
     </thead>
     <tbody>
-    {% for  index, session in enumerate(sessions) %}
-        <tr style="{{ group_status_colors[session.status] }}">
+    {% for  index, session_and_clients in enumerate(sessions_and_clients) %}
+        <tr style="{{ group_status_colors[session_and_clients[0].status] }}">
             <td>{{ index+1 }}</td>
-            <td>{{ session.id }}</td>
-            <td>{{ session.theme}}</td>
-            <td>{{ session.date }}</td>
-            <td>{{ session.starting_time }}</td>
-            <td>{{ session.coach.full_name }}</td>
+            <td>{{ session_and_clients[0].id }}</td>
+            <td>{{ session_and_clients[0].theme}}</td>
+            <td>{{ ukr_type(session_and_clients[0].type) }}</td>
+            <td>{{ session_and_clients[0].date }}</td>
+            <td>{{ session_and_clients[0].starting_time }}</td>
+            <td>{{ session_and_clients[0].coach.full_name }}</td>
             <td>
-            {% for client in clients %}
+            {% for client in session_and_clients[1] %}
 
                 {{ client.full_name }} (@{{client.username }})
                 <br>
@@ -160,7 +162,7 @@
 
     <div class="color-wrapper">
         <div class="color-square" style="{{ group_status_colors[8] }}"></div>
-        <span class="color-text"> Недостатня кількість для проведення </span>
+        <span class="color-text"> Достатня кількість для проведення </span>
     </div>
 
     <a href="/groups?week={{ week_number+1 }}">
