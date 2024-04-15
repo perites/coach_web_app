@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 import datetime
-
+import random
+import base64
 import web_confg
 from tools import get_session_by_week, tx
 
 app = Flask(__name__)
+app.config['IMAGES'] = 'templates/images'
 
 
 @app.route('/')
@@ -57,6 +59,30 @@ def get_week_dates(year, week_number):
     first_day_of_week = first_day + datetime.timedelta(days=(week_number - 1) * 7 - first_day.weekday())
     last_day_of_week = first_day_of_week + datetime.timedelta(days=6)
     return f"{first_day_of_week:%d.%m}", f"{last_day_of_week:%d.%m}"
+
+
+@app.route('/generate')
+def generate():
+    random_index = random.randint(0, len(web_confg.IMAGES_NAMES) - 1)
+    index = random_index.to_bytes()
+
+    encrypted_index = web_confg.cipher.encrypt(index)
+    encrypted_index_b64 = base64.urlsafe_b64encode(encrypted_index).decode()
+
+    return redirect(url_for('image', encrypted_index=encrypted_index_b64))
+
+
+@app.route('/map/<encrypted_index>')
+def image(encrypted_index):
+    return render_template("map.html", file_url=url_for("get_image", encrypted_index=encrypted_index))
+
+
+@app.route("/get-image/<encrypted_index>")
+def get_image(encrypted_index):
+    encrypted_index_bytes = base64.urlsafe_b64decode(encrypted_index)
+    index = int.from_bytes(web_confg.cipher.decrypt(encrypted_index_bytes), byteorder='big')
+    image_name = web_confg.IMAGES_NAMES[index]
+    return send_from_directory(app.config['IMAGES'], image_name)
 
 
 if __name__ == '__main__':

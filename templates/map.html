@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Map</title>
+
+    <style>
+        body {
+            background-color: #163140;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            text-align: center;
+            padding: 20px;
+            background-color: #94bbec;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgb(131, 157, 173);
+            color: #fff;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .questions {
+            font-size: 16px;
+            margin-top: 20px;
+            text-align: left;
+
+
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="{{ file_url }}" alt="Map image">
+    <p>Подивіться на свою карту, що ви відчуваєте, дивлячись на неї?</p>
+    <ol class="questions">
+        <li>Про що важливе, актуальне я не сказав/ла собі?</li>
+        <li>Що важливе для мене я ще відчув/да тілесно?</li>
+        <li>Яка дія на зараз для мене принесе найбільшу цінність?</li>
+    </ol>
+</div>
+
+</body>
+</html>
+
