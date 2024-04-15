@@ -64,7 +64,7 @@ def get_week_dates(year, week_number):
 @app.route('/generate')
 def generate():
     random_index = random.randint(0, len(web_confg.IMAGES_NAMES) - 1)
-    index = random_index.to_bytes()
+    index = random_index.to_bytes(length=1, byteorder='big')
 
     encrypted_index = web_confg.cipher.encrypt(index)
     encrypted_index_b64 = base64.urlsafe_b64encode(encrypted_index).decode()
