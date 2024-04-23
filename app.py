@@ -3,8 +3,6 @@ import logging
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from flask_login import logout_user, current_user, login_required
 
-import logs.test as test_module
-
 # import tools
 from login_logic import login_manager, authenticate
 from flask_bootstrap import Bootstrap5
