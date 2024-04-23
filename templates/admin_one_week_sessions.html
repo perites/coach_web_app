@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sessions</title>
+    <title>Admin Sessions</title>
     <style>
         body {
             background-color: #163140; /* Dark gray background */
@@ -24,7 +24,7 @@
             overflow: hidden; /* Ensuring that border-radius works properly */
         }
 
-        th, td {
+        th, .general-td, .button-td {
             border: 1px solid #555;
             padding: 8px;
             text-align: left;
@@ -35,11 +35,12 @@
             background-color: rgba(132, 99, 240, 0.92); /* Darker gray background for table header */
         }
 
-        td:hover {
+
+        .general-td:hover {
             background-color: #94bbec; /* Darker shade on hover */
         }
 
-       button {
+       .week-button {
             width: 250px;
             height: 41px;/* Add padding to buttons */
             border: none; /* Remove border */
@@ -49,7 +50,7 @@
             cursor: pointer; /* Cursor style */
         }
 
-        button:hover {
+        .week-button:hover, .edit-button:hover {
             background-color: #94bbec; /* Darker shade on hover */
         }
 
@@ -78,44 +79,58 @@
         color: white;
     }
 
+    .button-td{
+        text-align: center;
+    }
+
+    .edit-button{
+        color: white;
+        background-color: rgba(132, 99, 240, 0.92);
+        border-radius: 3px;
+        border: 1px solid #555;
+
+    }
+
+
     </style>
 </head>
 
 <body>
-<h1>Групові сесії за {{ first_last_dates[0]}} - {{ first_last_dates[1] }}</h1>
+<h1>Сесії за {{ first_last_dates[0]}} - {{ first_last_dates[1] }}</h1>
 <table>
     <thead>
     <tr>
         <th>№</th>
         <th>Session ID</th>
-        <th>Тема сесії</th>
-        <th>Тип</th>
         <th>Дата</th>
         <th>Час</th>
         <th>Ім'я коуча</th>
-        <th>Кліенти</th>
+        <th>Тип коучингу</th>
+        <th>Ім'я клієнта</th>
+        <th>Нік кліента</th>
+        <th>Заброньовано о </th>
+        <th>Управління</th>
 
 
     </tr>
     </thead>
     <tbody>
-    {% for  index, session_and_clients in enumerate(sessions_and_clients) %}
-        <tr style="{{ group_status_colors[session_and_clients[0].status] }}">
-            <td>{{ index+1 }}</td>
-            <td>{{ session_and_clients[0].id }}</td>
-            <td>{{ session_and_clients[0].theme}}</td>
-            <td>{{ ukr_type(session_and_clients[0].type) }}</td>
-            <td>{{ session_and_clients[0].date }}</td>
-            <td>{{ session_and_clients[0].starting_time }}</td>
-            <td>{{ session_and_clients[0].coach.full_name }}</td>
-            <td>
-            {% for client in session_and_clients[1] %}
-
-                {{ client.full_name }} (@{{client.username }})
-                <br>
-
-            {% endfor %}
-        </td>
+    {% for  index, session in enumerate(sessions) %}
+        <tr style="{{ status_colors[session.status] }}">
+            <td class="general-td">{{ index+1 }}</td>
+            <td class="general-td">{{ session.id }}</td>
+            <td class="general-td">{{ session.date }}</td>
+            <td class="general-td">{{ session.starting_time }}</td>
+            <td class="general-td">{{ session.coach.full_name }}</td>
+            <td class="general-td">{{ session.type or "" }}</td>
+            <td class="general-td">{{ session.client.full_name }}</td>
+            <td class="general-td">{{ session.client.username }}</td>
+            <td class="general-td"> {{ session.booked_at }}</td>
+            <td class="button-td">
+                <a target='_blank' href="/admin/edit/session/{{ session.id}}">
+                     <button class="edit-button" > Редагувати </button>
+                 </a>
+            </td>
 
         </tr>
     {% endfor %}
@@ -124,49 +139,38 @@
 
 <div class="button-container">
 
-    <a href="/groups?week={{ week_number-1 }}">
-        <button> < Подивитись за минулий тиждень</button>
+    <a href="/admin/sessions?week={{ week_number-1 }}">
+        <button class="week-button" > < Подивитись за минулий тиждень</button>
     </a>
 
     <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[1] }}"></div>
+        <div class="color-square" style="{{ status_colors[1] }}"></div>
         <span class="color-text">  Вільна </span>
     </div>
 
 
     <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[2] }}"></div>
-        <span class="color-text"> Всі місця заповнені</span>
+        <div class="color-square" style="{{ status_colors[2] }}"></div>
+        <span class="color-text"> Заброньована</span>
     </div>
 
     <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[3] }}"></div>
+        <div class="color-square" style="{{ status_colors[3] }}"></div>
         <span class="color-text">Проведена</span>
     </div>
 
     <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[5]}}"></div>
+        <div class="color-square" style="{{ status_colors[5]}}"></div>
         <span class="color-text"> Перенесена </span>
     </div>
 
     <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[4] }}"></div>
+        <div class="color-square" style="{{ status_colors[4] }}"></div>
         <span class="color-text"> Відмінена / Просрочена </span>
     </div>
 
-    <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[7] }}"></div>
-        <span class="color-text"> Недостатня кількість для проведення </span>
-
-    </div>
-
-    <div class="color-wrapper">
-        <div class="color-square" style="{{ group_status_colors[8] }}"></div>
-        <span class="color-text"> Достатня кількість для проведення </span>
-    </div>
-
-    <a href="/groups?week={{ week_number+1 }}">
-        <button>Подивитись за наступний тиждень > </button>
+    <a href="/admin/sessions?week={{ week_number+1 }}">
+        <button class="week-button">Подивитись за наступний тиждень > </button>
     </a>
 
 </div>

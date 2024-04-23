@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit Group session</title>
+
+
+    <style>
+        body {
+            background-color: #163140;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        form {
+            max-width: 400px;
+        }
+
+        .mb-3 {
+            margin-bottom: 30px;
+        }
+
+        .form-label {
+            font-size: 20px;
+        }
+
+        .form-control {
+            margin-top: 10px;
+            outline: none;
+            font-size: 15px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #95a5a6;
+            border-radius: 4px;
+            background-color: #2c3e50;
+            color: #ffffff;
+        }
+
+        .form-control:focus {
+            border-color: #94bbec;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            width: 100%;
+            height: 40px;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #94bbec;
+        }
+
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-checkbox input[type="checkbox"] {
+            margin-left: 50px; /* Adjust the spacing between checkbox and label */
+            width: 20px; /* Adjust the width of the checkbox */
+            height: 20px; /* Adjust the height of the checkbox */
+        }
+
+
+    </style>
+</head>
+<body>
+<div>
+    <h1>Редагувати групову сесію з id {{ session.id }} </h1>
+
+    <form method="post">
+
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.change_coach.label(class= "form-label") }}
+            {{ form.change_coach(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.date.label(class= "form-label") }}
+            {{ form.date(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.starting_time.label(class= "form-label") }}
+            {{ form.starting_time(class="form-control") }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.status.label(class= "form-label") }}
+            {{ form.status(class="form-control") }}
+        </div>
+
+
+        <div class="mb-3">
+            {{ form.delete_client.label(class= "form-label") }}
+            {{ form.delete_client(class="form-control") }}
+        </div>
+
+        {{ form.submit(class="btn-primary") }}
+
+    </form>
+</div>
+{#{% from 'bootstrap5/form.html' import render_form %}#}
+{#{{ render_form(form) }}#}
+
+
+</body>
+</html>
